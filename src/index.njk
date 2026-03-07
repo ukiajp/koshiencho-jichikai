@@ -43,7 +43,7 @@ permalink: /index.html
   <section>
     <h2 class="text-lg font-bold text-kon border-l-4 border-midori pl-3 mb-4">最新のお知らせ</h2>
     <ul class="space-y-3">
-      {% for item in collections.news | reverse | slice(0, 3) %}
+      {% for item in collections.news | limit(3) %}
       <li class="flex gap-3 border-b pb-3">
         <time class="text-sm text-gray-500 whitespace-nowrap">{{ item.date | dateJp }}</time>
         <a href="{{ item.url }}" class="text-base hover:underline text-kon">{{ item.data.title }}</a>

@@ -10,6 +10,9 @@ module.exports = function(eleventyConfig) {
       .sort((a, b) => b.date - a.date);
   });
 
+  // 先頭N件を取得
+  eleventyConfig.addFilter("limit", (arr, n) => arr.slice(0, n));
+
   // 日付フォーマット（YYYY/MM/DD）
   eleventyConfig.addFilter("dateJp", function(date) {
     const d = new Date(date);
