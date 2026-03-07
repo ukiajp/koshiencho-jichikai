@@ -10,6 +10,13 @@ module.exports = function(eleventyConfig) {
       .sort((a, b) => b.date - a.date);
   });
 
+  // お知らせ＋活動報告を合わせた最新情報
+  eleventyConfig.addCollection("updates", function(api) {
+    const news = api.getFilteredByGlob("src/content/news/*.md");
+    const activities = api.getFilteredByGlob("src/content/activities/*.md");
+    return [...news, ...activities].sort((a, b) => b.date - a.date);
+  });
+
   // 先頭N件を取得
   eleventyConfig.addFilter("limit", (arr, n) => arr.slice(0, n));
 
