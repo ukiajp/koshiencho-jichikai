@@ -1,0 +1,82 @@
+■ Netlify Identity 設定URL（Identity は有効済み）
+https://app.netlify.com/sites/guileless-entremet-18c7b9/identity
+
+次にやること：
+1. 上のURLを開く
+2. ページ下部の「Git Gateway」セクションを探して「Enable Git Gateway」をクリック
+3. 「Invite users」から info@koshienchou.com を招待する
+4. 届いたメールのリンクをクリックしてパスワードを設定する
+
+■ Git Gateway 設定URL（こちらも試す）
+https://app.netlify.com/sites/guileless-entremet-18c7b9/settings/identity
+
+---
+
+# 甲子園町自治会サイト セットアップ記録
+更新日：2026年3月7日
+
+---
+
+## 完了済み
+
+### GitHubリポジトリ
+- リポジトリ名：koshiencho-jichikai
+- オーナー：ukiajp
+- 可視性：Private
+- URL：https://github.com/ukiajp/koshiencho-jichikai.git
+
+### Netlify連携
+- チーム：info-few44ee's team
+- プロジェクト名：guileless-entremet-18c7b9
+- 公開URL：https://guileless-entremet-18c7b9.netlify.app
+- デプロイ元：GitHubのmainブランチ（自動デプロイ設定済み）
+- Netlifyアカウント：info@koshienchou.com
+- Netlify Identity：有効化済み
+
+### HTMLページ（サンプル実装済み）
+- index.html      トップページ（ヒーロー画像・お知らせ・回覧板・予約CTA）
+- news.html       お知らせ一覧
+- events.html     イベント（月カレンダー形式）
+- activities.html 活動報告（グループ別）
+- reserve.html    月見里会館予約（Coubic埋め込み枠）
+- about.html      自治会について（グループ紹介）
+- contact.html    お問い合わせ（Googleフォーム埋め込み枠）
+
+### Netlify Identity ウィジェット
+- 全ページに netlify-identity-widget.js を追加済み
+- ログイン後 /admin/ へリダイレクトする設定済み
+
+---
+
+## 未完了・今後の作業
+
+### Decap CMS設定
+- admin/config.yml の作成
+- Git Gateway の有効化（Netlify管理画面）
+- 管理者ユーザーの招待（会長・副会長のメールアドレス）
+
+### Coubic（会館予約）
+- Coubicアカウント作成
+- 月見里会館のページ設定（利用時間・承認制）
+- 埋め込みコードを reserve.html に貼り付け
+- ※未決：利用可能時間・利用ルール
+
+### Googleフォーム（お問い合わせ）
+- Googleフォーム作成
+- GAS（Google Apps Script）設定
+- LINE Messaging API連携
+- 埋め込みコードを contact.html に貼り付け
+
+### ドメイン設定
+- 取得済みドメイン（.com）をNetlifyに設定
+
+---
+
+## 技術スタック
+- ホスティング：Netlify（無料）
+- CMS：Decap CMS + Netlify Identity
+- バックアップ：GitHub（自動連携）
+- HTML/CSS：Tailwind CSS（CDN）
+- 会館予約：Coubic
+- お問い合わせ：Googleフォーム + GAS + LINE Messaging API
+- 月額費用：0円（ドメイン費のみ）

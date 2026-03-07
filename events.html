@@ -10,6 +10,20 @@
       theme: { extend: { colors: { 'midori': '#1a5c38', 'kon': '#1e3a5f' } } }
     }
   </script>
+  <style>
+    .cal-cell { min-height: 64px; }
+    .event-tag {
+      font-size: 10px; line-height: 1.2; padding: 1px 3px;
+      border-radius: 2px; display: block; margin-top: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    @media (max-width: 480px) {
+      .cal-table { font-size: 9px; }
+      .cal-cell { min-height: 52px; padding: 1px !important; }
+      .cal-date { font-size: 10px; }
+      .event-tag { font-size: 8px; padding: 1px 2px; }
+    }
+  </style>
 </head>
 <body class="bg-white text-gray-800 font-sans">
 
@@ -43,90 +57,235 @@
   </header>
 
   <main class="max-w-2xl mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold text-kon mb-2 border-l-4 border-midori pl-3">イベント</h1>
-    <p class="text-sm text-gray-500 mb-6">今後の行事・イベント情報です。</p>
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-2xl font-bold text-kon border-l-4 border-midori pl-3">イベント</h1>
+      <div class="flex items-center gap-2">
+        <button class="p-1 hover:bg-gray-100 rounded" aria-label="前の月">
+          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <span class="text-base font-bold text-kon">2026年3月</span>
+        <button class="p-1 hover:bg-gray-100 rounded" aria-label="次の月">
+          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
 
-    <!-- 定期活動 -->
-    <section class="mb-8">
-      <h2 class="text-lg font-bold text-kon mb-3">定期活動</h2>
-      <div class="bg-green-50 rounded-lg p-4 space-y-2 text-sm">
-        <div class="flex gap-3 border-b border-green-100 pb-2">
-          <span class="text-gray-500 w-28 shrink-0">毎週月・木</span>
-          <span>グラウンドゴルフ 9:00（月見里公園）</span>
+    <!-- カレンダー凡例 -->
+    <div class="flex flex-wrap gap-2 mb-3 text-xs">
+      <span class="bg-green-100 text-green-800 px-2 py-0.5 rounded">花の会</span>
+      <span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded">ときわ会</span>
+      <span class="bg-pink-100 text-pink-800 px-2 py-0.5 rounded">ひばり会</span>
+      <span class="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">GG・ダーツ</span>
+      <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded">行事</span>
+    </div>
+
+    <!-- カレンダーテーブル -->
+    <div class="w-full">
+      <table class="cal-table w-full border-collapse table-fixed text-sm">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-200 py-2 text-center font-bold text-gray-700 w-[14%]">月</th>
+            <th class="border border-gray-200 py-2 text-center font-bold text-gray-700 w-[14%]">火</th>
+            <th class="border border-gray-200 py-2 text-center font-bold text-gray-700 w-[14%]">水</th>
+            <th class="border border-gray-200 py-2 text-center font-bold text-gray-700 w-[14%]">木</th>
+            <th class="border border-gray-200 py-2 text-center font-bold text-gray-700 w-[14%]">金</th>
+            <th class="border border-gray-200 py-2 text-center font-bold text-gray-700 w-[14%]">土</th>
+            <th class="border border-gray-200 py-2 text-center font-bold text-red-500 w-[14%]">日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 第1週: 3/1(日)のみ -->
+          <tr>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+            <td class="border border-gray-200 p-1 cal-cell align-top text-red-500">
+              <span class="cal-date font-bold">1</span>
+            </td>
+          </tr>
+          <!-- 第2週: 3/2〜8 -->
+          <tr>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">2</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">GG 9:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">3</span>
+              <span class="event-tag bg-blue-100 text-blue-800">体操13:30</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">4</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">5</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">GG 9:00</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">6</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">7</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top text-red-500">
+              <span class="cal-date font-bold">8</span>
+            </td>
+          </tr>
+          <!-- 第3週: 3/9〜15 -->
+          <tr>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">9</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">GG 9:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">10</span>
+              <span class="event-tag bg-blue-100 text-blue-800">体操13:30</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">11</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+              <span class="event-tag bg-pink-100 text-pink-800">ひばり会</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">12</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">GG 9:00</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">13</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">14</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top text-red-500">
+              <span class="cal-date font-bold">15</span>
+              <span class="event-tag bg-red-100 text-red-800">春の清掃</span>
+            </td>
+          </tr>
+          <!-- 第4週: 3/16〜22 -->
+          <tr>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">16</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">GG 9:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">17</span>
+              <span class="event-tag bg-blue-100 text-blue-800">体操13:30</span>
+              <span class="event-tag bg-green-100 text-green-800">花の会</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">18</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">19</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">GG 9:00</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">20</span>
+              <span class="text-xs text-gray-400">祝</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">21</span>
+              <span class="event-tag bg-red-100 text-red-800">🏟選抜開幕</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top text-red-500">
+              <span class="cal-date font-bold">22</span>
+            </td>
+          </tr>
+          <!-- 第5週: 3/23〜29 -->
+          <tr>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">23</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">GG 9:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">24</span>
+              <span class="event-tag bg-blue-100 text-blue-800">体操13:30</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">25</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+              <span class="event-tag bg-pink-100 text-pink-800">ひばり会</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">26</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">GG 9:00</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">27</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">ダーツ13:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">28</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top text-red-500">
+              <span class="cal-date font-bold">29</span>
+            </td>
+          </tr>
+          <!-- 第6週: 3/30〜31 -->
+          <tr>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">30</span>
+              <span class="event-tag bg-yellow-100 text-yellow-800">GG 9:00</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top">
+              <span class="cal-date font-bold">31</span>
+              <span class="event-tag bg-blue-100 text-blue-800">体操13:30</span>
+            </td>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+            <td class="border border-gray-200 p-1 cal-cell align-top"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 行事詳細リスト -->
+    <section class="mt-8">
+      <h2 class="text-lg font-bold text-kon mb-3 border-l-4 border-midori pl-3">今月の行事</h2>
+      <div class="space-y-3">
+        <div class="border rounded-lg p-4 flex gap-3 items-start">
+          <div class="bg-midori text-white text-center rounded px-2 py-1 text-sm leading-tight shrink-0">
+            <div class="text-xs">3月</div>
+            <div class="font-bold text-lg">15</div>
+          </div>
+          <div>
+            <p class="font-bold">春の清掃活動</p>
+            <p class="text-sm text-gray-500">9:00〜 甲子園町一帯</p>
+            <p class="text-sm text-gray-600 mt-1">町内の一斉清掃活動です。軍手・ゴミ袋はご用意します。</p>
+          </div>
         </div>
-        <div class="flex gap-3 border-b border-green-100 pb-2">
-          <span class="text-gray-500 w-28 shrink-0">毎週火</span>
-          <span>いきいき体操 13:30（月見里会館）</span>
-        </div>
-        <div class="flex gap-3 border-b border-green-100 pb-2">
-          <span class="text-gray-500 w-28 shrink-0">毎週水・木・金</span>
-          <span>ダーツ 13:00（月見里会館）※随時</span>
-        </div>
-        <div class="flex gap-3 border-b border-green-100 pb-2">
-          <span class="text-gray-500 w-28 shrink-0">月1回（第3月曜）</span>
-          <span>花の会（花壇管理）</span>
-        </div>
-        <div class="flex gap-3 border-b border-green-100 pb-2">
-          <span class="text-gray-500 w-28 shrink-0">月2回（第2・4水）</span>
-          <span>ひばり会</span>
-        </div>
-        <div class="flex gap-3">
-          <span class="text-gray-500 w-28 shrink-0">月複数回</span>
-          <span>ときわ会（定例会・いきいき体操など）</span>
+        <div class="border rounded-lg p-4 flex gap-3 items-start">
+          <div class="bg-kon text-white text-center rounded px-2 py-1 text-sm leading-tight shrink-0">
+            <div class="text-xs">3月</div>
+            <div class="font-bold text-lg">21</div>
+          </div>
+          <div>
+            <p class="font-bold">🏟 選抜高校野球 開幕</p>
+            <p class="text-sm text-gray-500">阪神甲子園球場</p>
+            <p class="text-sm text-gray-600 mt-1">球場周辺は混雑が予想されます。交通・駐車場にご注意ください。</p>
+            <p class="text-xs text-gray-400 mt-1">※急な変更は<a href="https://www.koshien.jp/" target="_blank" class="underline">公式サイト</a>をご確認ください</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 行事・イベント -->
-    <section>
-      <h2 class="text-lg font-bold text-kon mb-3">行事・イベント</h2>
-      <div class="space-y-4">
-
-        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-          <div class="flex gap-3 items-start">
-            <div class="bg-midori text-white text-center rounded px-2 py-1 text-sm leading-tight shrink-0">
-              <div class="text-xs">3月</div>
-              <div class="font-bold text-lg">15</div>
-            </div>
-            <div>
-              <p class="font-bold text-base">春の清掃活動</p>
-              <p class="text-sm text-gray-500 mt-1">9:00〜 甲子園町一帯</p>
-              <p class="text-sm text-gray-600 mt-1">町内の一斉清掃活動です。軍手・ゴミ袋はご用意します。</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-          <div class="flex gap-3 items-start">
-            <div class="bg-midori text-white text-center rounded px-2 py-1 text-sm leading-tight shrink-0">
-              <div class="text-xs">8月</div>
-              <div class="font-bold text-lg">23</div>
-            </div>
-            <div>
-              <p class="font-bold text-base">地蔵盆</p>
-              <p class="text-sm text-gray-500 mt-1">10:00〜 甲子園町お地蔵さん前</p>
-              <p class="text-sm text-gray-600 mt-1">毎年恒例の地蔵盆です。子どもたちのご参加をお待ちしています。</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
-          <div class="flex gap-3 items-start">
-            <div class="bg-kon text-white text-center rounded px-2 py-1 text-sm leading-tight shrink-0">
-              <div class="text-xs">3月</div>
-              <div class="font-bold text-lg">21</div>
-            </div>
-            <div>
-              <p class="font-bold text-base">🏟 選抜高校野球 開幕</p>
-              <p class="text-sm text-gray-500 mt-1">阪神甲子園球場</p>
-              <p class="text-sm text-gray-600 mt-1">甲子園球場の春の大会が始まります。交通・駐車場にご注意ください。</p>
-              <p class="text-xs text-gray-400 mt-1">※急な変更は<a href="https://www.koshien.jp/" target="_blank" class="underline">公式サイト</a>をご確認ください</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
   </main>
 
   <footer class="bg-kon text-white mt-12 py-8">
@@ -142,5 +301,17 @@
     const menu = document.getElementById('mobileMenu');
     btn.addEventListener('click', () => menu.classList.toggle('hidden'));
   </script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
 </body>
 </html>

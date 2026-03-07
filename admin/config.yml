@@ -1,0 +1,41 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: assets/images
+public_folder: /assets/images
+
+locale: ja
+
+collections:
+  - name: news
+    label: お知らせ
+    folder: content/news
+    create: true
+    slug: "{{year}}{{month}}{{day}}_{{slug}}"
+    fields:
+      - { label: タイトル, name: title, widget: string }
+      - { label: 日付, name: date, widget: datetime, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false }
+      - { label: 本文, name: body, widget: markdown }
+
+  - name: events
+    label: イベント
+    folder: content/events
+    create: true
+    slug: "{{year}}{{month}}{{day}}_{{slug}}"
+    fields:
+      - { label: タイトル, name: title, widget: string }
+      - { label: 開催日, name: date, widget: datetime, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false }
+      - { label: 場所, name: location, widget: string, required: false }
+      - { label: 本文, name: body, widget: markdown }
+
+  - name: activities
+    label: 活動報告
+    folder: content/activities
+    create: true
+    slug: "{{year}}{{month}}{{day}}_{{slug}}"
+    fields:
+      - { label: タイトル, name: title, widget: string }
+      - { label: 日付, name: date, widget: datetime, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false }
+      - { label: アイキャッチ画像, name: thumbnail, widget: image, required: false }
+      - { label: 本文, name: body, widget: markdown }
