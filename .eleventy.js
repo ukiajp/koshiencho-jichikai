@@ -14,11 +14,12 @@ module.exports = function(eleventyConfig) {
       .sort((a, b) => b.date - a.date);
   });
 
-  // お知らせ＋活動報告を合わせた最新情報
+  // お知らせ＋活動報告＋イベントを合わせた最新情報
   eleventyConfig.addCollection("updates", function(api) {
     const news = api.getFilteredByGlob("src/content/news/*.md");
     const activities = api.getFilteredByGlob("src/content/activities/*.md");
-    return [...news, ...activities].sort((a, b) => b.date - a.date);
+    const events = api.getFilteredByGlob("src/content/events/*.md");
+    return [...news, ...activities, ...events].sort((a, b) => b.date - a.date);
   });
 
   // 先頭N件を取得
