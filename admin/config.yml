@@ -7,6 +7,9 @@ public_folder: /assets/images
 
 locale: ja
 
+editor:
+  preview: false
+
 collections:
   - name: news
     label: お知らせ
