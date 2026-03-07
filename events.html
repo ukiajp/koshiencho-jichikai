@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>イベント | 甲子園町自治会</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { 'midori': '#1a5c38', 'kon': '#1e3a5f' } } }
+    }
+  </script>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+  <header class="bg-midori text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="text-lg font-bold tracking-wide">甲子園町自治会</a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a href="news.html" class="hover:underline">お知らせ</a>
+        <a href="events.html" class="underline">イベント</a>
+        <a href="activities.html" class="hover:underline">活動報告</a>
+        <a href="reserve.html" class="hover:underline">会館予約</a>
+        <a href="about.html" class="hover:underline">自治会について</a>
+        <a href="contact.html" class="hover:underline">お問い合わせ</a>
+      </nav>
+      <button id="menuBtn" class="md:hidden p-2" aria-label="メニュー">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden bg-midori border-t border-green-700">
+      <nav class="flex flex-col px-4 py-2 gap-1 text-sm">
+        <a href="news.html" class="py-3 border-b border-green-700 hover:opacity-80">お知らせ</a>
+        <a href="events.html" class="py-3 border-b border-green-700">イベント</a>
+        <a href="activities.html" class="py-3 border-b border-green-700 hover:opacity-80">活動報告</a>
+        <a href="reserve.html" class="py-3 border-b border-green-700 hover:opacity-80">会館予約</a>
+        <a href="about.html" class="py-3 border-b border-green-700 hover:opacity-80">自治会について</a>
+        <a href="contact.html" class="py-3 hover:opacity-80">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-kon mb-2 border-l-4 border-midori pl-3">イベント</h1>
+    <p class="text-sm text-gray-500 mb-6">今後の行事・イベント情報です。</p>
+
+    <!-- 定期活動 -->
+    <section class="mb-8">
+      <h2 class="text-lg font-bold text-kon mb-3">定期活動</h2>
+      <div class="bg-green-50 rounded-lg p-4 space-y-2 text-sm">
+        <div class="flex gap-3 border-b border-green-100 pb-2">
+          <span class="text-gray-500 w-28 shrink-0">毎週月・木</span>
+          <span>グラウンドゴルフ 9:00（月見里公園）</span>
+        </div>
+        <div class="flex gap-3 border-b border-green-100 pb-2">
+          <span class="text-gray-500 w-28 shrink-0">毎週火</span>
+          <span>いきいき体操 13:30（月見里会館）</span>
+        </div>
+        <div class="flex gap-3 border-b border-green-100 pb-2">
+          <span class="text-gray-500 w-28 shrink-0">毎週水・木・金</span>
+          <span>ダーツ 13:00（月見里会館）※随時</span>
+        </div>
+        <div class="flex gap-3 border-b border-green-100 pb-2">
+          <span class="text-gray-500 w-28 shrink-0">月1回（第3月曜）</span>
+          <span>花の会（花壇管理）</span>
+        </div>
+        <div class="flex gap-3 border-b border-green-100 pb-2">
+          <span class="text-gray-500 w-28 shrink-0">月2回（第2・4水）</span>
+          <span>ひばり会</span>
+        </div>
+        <div class="flex gap-3">
+          <span class="text-gray-500 w-28 shrink-0">月複数回</span>
+          <span>ときわ会（定例会・いきいき体操など）</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 行事・イベント -->
+    <section>
+      <h2 class="text-lg font-bold text-kon mb-3">行事・イベント</h2>
+      <div class="space-y-4">
+
+        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+          <div class="flex gap-3 items-start">
+            <div class="bg-midori text-white text-center rounded px-2 py-1 text-sm leading-tight shrink-0">
+              <div class="text-xs">3月</div>
+              <div class="font-bold text-lg">15</div>
+            </div>
+            <div>
+              <p class="font-bold text-base">春の清掃活動</p>
+              <p class="text-sm text-gray-500 mt-1">9:00〜 甲子園町一帯</p>
+              <p class="text-sm text-gray-600 mt-1">町内の一斉清掃活動です。軍手・ゴミ袋はご用意します。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+          <div class="flex gap-3 items-start">
+            <div class="bg-midori text-white text-center rounded px-2 py-1 text-sm leading-tight shrink-0">
+              <div class="text-xs">8月</div>
+              <div class="font-bold text-lg">23</div>
+            </div>
+            <div>
+              <p class="font-bold text-base">地蔵盆</p>
+              <p class="text-sm text-gray-500 mt-1">10:00〜 甲子園町お地蔵さん前</p>
+              <p class="text-sm text-gray-600 mt-1">毎年恒例の地蔵盆です。子どもたちのご参加をお待ちしています。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+          <div class="flex gap-3 items-start">
+            <div class="bg-kon text-white text-center rounded px-2 py-1 text-sm leading-tight shrink-0">
+              <div class="text-xs">3月</div>
+              <div class="font-bold text-lg">21</div>
+            </div>
+            <div>
+              <p class="font-bold text-base">🏟 選抜高校野球 開幕</p>
+              <p class="text-sm text-gray-500 mt-1">阪神甲子園球場</p>
+              <p class="text-sm text-gray-600 mt-1">甲子園球場の春の大会が始まります。交通・駐車場にご注意ください。</p>
+              <p class="text-xs text-gray-400 mt-1">※急な変更は<a href="https://www.koshien.jp/" target="_blank" class="underline">公式サイト</a>をご確認ください</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-kon text-white mt-12 py-8">
+    <div class="max-w-2xl mx-auto px-4 text-center space-y-2">
+      <p class="font-bold text-base">甲子園町自治会</p>
+      <p class="text-sm text-gray-300">〒663-XXXX 兵庫県西宮市甲子園町</p>
+      <p class="text-sm text-gray-300">© 2026 甲子園町自治会</p>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+  </script>
+</body>
+</html>

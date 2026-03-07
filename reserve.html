@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>月見里会館 予約 | 甲子園町自治会</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { 'midori': '#1a5c38', 'kon': '#1e3a5f' } } }
+    }
+  </script>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+  <header class="bg-midori text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="text-lg font-bold tracking-wide">甲子園町自治会</a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a href="news.html" class="hover:underline">お知らせ</a>
+        <a href="events.html" class="hover:underline">イベント</a>
+        <a href="activities.html" class="hover:underline">活動報告</a>
+        <a href="reserve.html" class="underline">会館予約</a>
+        <a href="about.html" class="hover:underline">自治会について</a>
+        <a href="contact.html" class="hover:underline">お問い合わせ</a>
+      </nav>
+      <button id="menuBtn" class="md:hidden p-2" aria-label="メニュー">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden bg-midori border-t border-green-700">
+      <nav class="flex flex-col px-4 py-2 gap-1 text-sm">
+        <a href="news.html" class="py-3 border-b border-green-700 hover:opacity-80">お知らせ</a>
+        <a href="events.html" class="py-3 border-b border-green-700 hover:opacity-80">イベント</a>
+        <a href="activities.html" class="py-3 border-b border-green-700 hover:opacity-80">活動報告</a>
+        <a href="reserve.html" class="py-3 border-b border-green-700">会館予約</a>
+        <a href="about.html" class="py-3 border-b border-green-700 hover:opacity-80">自治会について</a>
+        <a href="contact.html" class="py-3 hover:opacity-80">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-kon mb-2 border-l-4 border-midori pl-3">月見里会館 予約</h1>
+    <p class="text-sm text-gray-500 mb-6">甲子園町在住の方がご利用いただけます。</p>
+
+    <!-- 利用案内 -->
+    <section class="bg-green-50 rounded-lg p-4 mb-6">
+      <h2 class="font-bold text-base text-kon mb-3">ご利用案内</h2>
+      <dl class="space-y-2 text-sm">
+        <div class="flex gap-3">
+          <dt class="text-gray-500 w-20 shrink-0">所在地</dt>
+          <dd>兵庫県西宮市甲子園町（詳細は自治会にお問い合わせください）</dd>
+        </div>
+        <div class="flex gap-3">
+          <dt class="text-gray-500 w-20 shrink-0">利用時間</dt>
+          <dd>9:00〜21:00</dd>
+        </div>
+        <div class="flex gap-3">
+          <dt class="text-gray-500 w-20 shrink-0">対象</dt>
+          <dd>甲子園町在住の方・各種グループ</dd>
+        </div>
+        <div class="flex gap-3">
+          <dt class="text-gray-500 w-20 shrink-0">承認制</dt>
+          <dd>予約後、管理者が確認のうえ確定します</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- Coubic埋め込みエリア -->
+    <section class="mb-6">
+      <h2 class="font-bold text-base text-kon mb-3">予約カレンダー</h2>
+      <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center text-gray-400">
+        <p class="text-sm">ここにCoubicの予約カレンダーが表示されます</p>
+        <p class="text-xs mt-2">（Coubic設定後に埋め込みコードを挿入してください）</p>
+      </div>
+    </section>
+
+    <p class="text-sm text-gray-500">ご不明な点は<a href="contact.html" class="text-midori underline">お問い合わせ</a>からご連絡ください。</p>
+  </main>
+
+  <footer class="bg-kon text-white mt-12 py-8">
+    <div class="max-w-2xl mx-auto px-4 text-center space-y-2">
+      <p class="font-bold text-base">甲子園町自治会</p>
+      <p class="text-sm text-gray-300">〒663-XXXX 兵庫県西宮市甲子園町</p>
+      <p class="text-sm text-gray-300">© 2026 甲子園町自治会</p>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+  </script>
+</body>
+</html>
