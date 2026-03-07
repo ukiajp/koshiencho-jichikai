@@ -37,5 +37,19 @@ collections:
     fields:
       - { label: タイトル, name: title, widget: string }
       - { label: 日付, name: date, widget: datetime, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false }
+      - label: グループ
+        name: group
+        widget: select
+        options:
+          - { label: 花の会, value: hana }
+          - { label: ときわ会, value: tokiwa }
+          - { label: ひばり会, value: hibari }
+          - { label: 防犯部, value: bohan }
+      - label: 活動種別
+        name: type
+        widget: select
+        options:
+          - { label: 定期活動, value: regular }
+          - { label: 特別活動, value: special }
       - { label: アイキャッチ画像, name: thumbnail, widget: image, required: false }
       - { label: 本文, name: body, widget: markdown }
