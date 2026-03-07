@@ -1,0 +1,28 @@
+<header class="bg-midori text-white sticky top-0 z-50 shadow-md">
+  <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="/" class="text-lg font-bold tracking-wide">甲子園町自治会</a>
+    <nav class="hidden md:flex gap-6 text-sm">
+      <a href="/news/" class="{{ 'underline' if '/news' in page.url else 'hover:underline' }}">お知らせ</a>
+      <a href="/events/" class="{{ 'underline' if '/events' in page.url else 'hover:underline' }}">イベント</a>
+      <a href="/activities/" class="{{ 'underline' if '/activities' in page.url else 'hover:underline' }}">活動報告</a>
+      <a href="/reserve/" class="{{ 'underline' if '/reserve' in page.url else 'hover:underline' }}">会館予約</a>
+      <a href="/about/" class="{{ 'underline' if '/about' in page.url else 'hover:underline' }}">自治会について</a>
+      <a href="/contact/" class="{{ 'underline' if '/contact' in page.url else 'hover:underline' }}">お問い合わせ</a>
+    </nav>
+    <button id="menuBtn" class="md:hidden p-2" aria-label="メニュー">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden bg-midori border-t border-green-700">
+    <nav class="flex flex-col px-4 py-2 gap-1 text-sm">
+      <a href="/news/" class="py-3 border-b border-green-700 hover:opacity-80">お知らせ</a>
+      <a href="/events/" class="py-3 border-b border-green-700 hover:opacity-80">イベント</a>
+      <a href="/activities/" class="py-3 border-b border-green-700 hover:opacity-80">活動報告</a>
+      <a href="/reserve/" class="py-3 border-b border-green-700 hover:opacity-80">会館予約</a>
+      <a href="/about/" class="py-3 border-b border-green-700 hover:opacity-80">自治会について</a>
+      <a href="/contact/" class="py-3 hover:opacity-80">お問い合わせ</a>
+    </nav>
+  </div>
+</header>

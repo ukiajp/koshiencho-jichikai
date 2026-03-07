@@ -1,0 +1,4 @@
+{
+  "layout": "activity-article.njk",
+  "permalink": "/activities/{{ page.fileSlug }}/index.html"
+}
