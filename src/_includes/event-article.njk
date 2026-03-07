@@ -1,0 +1,16 @@
+---
+layout: base.njk
+---
+<main class="max-w-2xl mx-auto px-4 py-8">
+  <a href="/events/" class="text-sm text-midori hover:underline">← イベント一覧に戻る</a>
+  <article class="mt-4">
+    <time class="text-sm text-gray-500">{{ date | dateJp }}</time>
+    <h1 class="text-2xl font-bold text-kon mt-2 mb-2 border-l-4 border-midori pl-3">{{ title }}</h1>
+    {% if location %}
+    <p class="text-sm text-gray-500 mb-6">場所：{{ location }}</p>
+    {% endif %}
+    <div class="prose prose-sm max-w-none text-gray-700 leading-relaxed space-y-4">
+      {{ content | safe }}
+    </div>
+  </article>
+</main>

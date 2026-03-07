@@ -9,6 +9,10 @@ module.exports = function(eleventyConfig) {
     return api.getFilteredByGlob("src/content/activities/*.md")
       .sort((a, b) => b.date - a.date);
   });
+  eleventyConfig.addCollection("events", function(api) {
+    return api.getFilteredByGlob("src/content/events/*.md")
+      .sort((a, b) => b.date - a.date);
+  });
 
   // お知らせ＋活動報告を合わせた最新情報
   eleventyConfig.addCollection("updates", function(api) {

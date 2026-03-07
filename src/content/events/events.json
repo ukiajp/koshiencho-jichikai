@@ -1,0 +1,4 @@
+{
+  "layout": "event-article.njk",
+  "permalink": "/events/{{ page.fileSlug }}/index.html"
+}
