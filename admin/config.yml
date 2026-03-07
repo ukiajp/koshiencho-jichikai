@@ -10,7 +10,7 @@ locale: ja
 collections:
   - name: news
     label: お知らせ
-    folder: content/news
+    folder: src/content/news
     create: true
     slug: "{{year}}{{month}}{{day}}_{{slug}}"
     fields:
@@ -21,7 +21,7 @@ collections:
 
   - name: events
     label: イベント
-    folder: content/events
+    folder: src/content/events
     create: true
     slug: "{{year}}{{month}}{{day}}_{{slug}}"
     fields:
@@ -32,7 +32,7 @@ collections:
 
   - name: activities
     label: 活動報告
-    folder: content/activities
+    folder: src/content/activities
     create: true
     slug: "{{year}}{{month}}{{day}}_{{slug}}"
     fields:

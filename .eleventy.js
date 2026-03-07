@@ -2,11 +2,11 @@ module.exports = function(eleventyConfig) {
 
   // コレクション（新着順）
   eleventyConfig.addCollection("news", function(api) {
-    return api.getFilteredByGlob("content/news/*.md")
+    return api.getFilteredByGlob("src/content/news/*.md")
       .sort((a, b) => b.date - a.date);
   });
   eleventyConfig.addCollection("activities", function(api) {
-    return api.getFilteredByGlob("content/activities/*.md")
+    return api.getFilteredByGlob("src/content/activities/*.md")
       .sort((a, b) => b.date - a.date);
   });
 
@@ -19,7 +19,6 @@ module.exports = function(eleventyConfig) {
   // 静的ファイルをそのままコピー
   eleventyConfig.addPassthroughCopy("assets");
   eleventyConfig.addPassthroughCopy("admin");
-  eleventyConfig.addPassthroughCopy({ "content": "content" });
 
   return {
     dir: {
