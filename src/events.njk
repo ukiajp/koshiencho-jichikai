@@ -122,7 +122,7 @@ function renderCalendar(year, month) {
       cellHtml = activities.map(a => {
         const cls = `${getColorClass(a.color)} text-xs px-2 py-0.5 rounded-full`;
         return a.link
-          ? `<a href="${a.link}" class="${cls} font-bold hover:opacity-80">${a.label}</a>`
+          ? `<a href="${a.link}" class="${cls} font-bold underline decoration-blue-600 text-blue-700 hover:opacity-80">${a.label}</a>`
           : `<span class="${cls}">${a.label}</span>`;
       }).join('');
     }
