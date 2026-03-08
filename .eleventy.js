@@ -39,6 +39,7 @@ module.exports = function(eleventyConfig) {
   // 静的ファイルをそのままコピー
   eleventyConfig.addPassthroughCopy("assets");
   eleventyConfig.addPassthroughCopy("admin");
+  eleventyConfig.addPassthroughCopy("img");
 
   return {
     dir: {

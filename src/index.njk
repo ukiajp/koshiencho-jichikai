@@ -4,16 +4,65 @@ pageTitle: トップ
 permalink: /index.html
 ---
 
-<!-- ヒーローセクション -->
-<section class="relative">
-  <img src="/assets/images/hero_spring.png" alt="甲子園町の春の風景" class="w-full object-cover">
-  <div class="absolute inset-0 bg-black/10 flex flex-col items-center justify-center text-white text-center px-4">
+<!-- ヒーローセクション（スライドショー） -->
+<section class="relative overflow-hidden" style="height:260px;">
+
+  <!-- 画像3枚（フェード切り替え） -->
+  <div class="absolute inset-0">
+    <img id="hero0" src="/img/hero001.jpg" alt="甲子園町の風景" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+    <img id="hero1" src="/img/hero002.jpg" alt="甲子園町の風景" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+    <img id="hero2" src="/img/hero003.jpg" alt="甲子園町の風景" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+  </div>
+
+  <!-- テキストオーバーレイ -->
+  <div class="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-white text-center px-4">
     <p class="text-xl md:text-3xl font-bold leading-relaxed drop-shadow">
       甲子園球場のそばで、<br>つながりつづけるまち。
     </p>
     <p class="mt-2 text-sm md:text-base drop-shadow">思わず自慢したくなる街</p>
   </div>
+
+  <!-- ドットナビゲーション -->
+  <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+    <button class="hero-dot w-2 h-2 rounded-full bg-white opacity-100 transition-opacity" data-index="0" aria-label="1枚目"></button>
+    <button class="hero-dot w-2 h-2 rounded-full bg-white opacity-40 transition-opacity" data-index="1" aria-label="2枚目"></button>
+    <button class="hero-dot w-2 h-2 rounded-full bg-white opacity-40 transition-opacity" data-index="2" aria-label="3枚目"></button>
+  </div>
 </section>
+
+<script>
+(function() {
+  const total = 3;
+  let current = 0;
+  let timer;
+
+  function show(index) {
+    for (let i = 0; i < total; i++) {
+      document.getElementById('hero' + i).style.opacity = i === index ? '1' : '0';
+      document.querySelectorAll('.hero-dot')[i].style.opacity = i === index ? '1' : '0.4';
+    }
+    current = index;
+  }
+
+  function next() {
+    show((current + 1) % total);
+  }
+
+  function startTimer() {
+    timer = setInterval(next, 4000);
+  }
+
+  document.querySelectorAll('.hero-dot').forEach(btn => {
+    btn.addEventListener('click', function() {
+      clearInterval(timer);
+      show(parseInt(this.dataset.index));
+      startTimer();
+    });
+  });
+
+  startTimer();
+})();
+</script>
 
 <!-- クイックメニュー -->
 <section class="bg-gray-50 border-b">
