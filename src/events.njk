@@ -3,38 +3,171 @@ layout: base.njk
 pageTitle: イベント
 permalink: /events/index.html
 ---
+
+<script>
+// イベントデータ（.mdファイルから自動生成）
+const EVENTS = [
+  {% for item in collections.events %}
+  {
+    date: "{{ item.date | isoDate }}",
+    title: "{{ item.data.title | replace('"', '\\"') }}",
+    url: "{{ item.url }}",
+    time: "{{ item.data.time or '' }}",
+    location: "{{ item.data.location or '' }}"
+  }{% if not loop.last %},{% endif %}
+  {% endfor %}
+];
+
+// 定期活動（曜日ベース）0=日 1=月 2=火 3=水 4=木 5=金 6=土
+const WEEKLY = {
+  1: [{label:'GG 9:00', color:'yellow'}],
+  2: [{label:'いきいき体操 13:30', color:'blue'}],
+  3: [{label:'ダーツ 13:00', color:'yellow'}],
+  4: [{label:'GG 9:00', color:'yellow'}, {label:'ダーツ 13:00', color:'yellow'}],
+  5: [{label:'ダーツ 13:00', color:'yellow'}]
+};
+
+// 定期活動（第N曜日ベース）
+const NTH_WEEKDAY = [
+  {dayOfWeek:1, nth:3, label:'花の会', color:'green'},
+  {dayOfWeek:3, nth:2, label:'ひばり会', color:'pink'},
+  {dayOfWeek:3, nth:4, label:'ひばり会', color:'pink'}
+];
+
+function getNthWeekday(year, month, dayOfWeek, nth) {
+  let count = 0;
+  for (let d = 1; d <= 31; d++) {
+    const date = new Date(year, month, d);
+    if (date.getMonth() !== month) break;
+    if (date.getDay() === dayOfWeek) {
+      count++;
+      if (count === nth) return d;
+    }
+  }
+  return null;
+}
+
+function getColorClass(color) {
+  const map = {
+    yellow: 'bg-yellow-100 text-yellow-800',
+    blue:   'bg-blue-100 text-blue-800',
+    green:  'bg-green-100 text-green-800',
+    pink:   'bg-pink-100 text-pink-800',
+    red:    'bg-red-100 text-red-800',
+    kon:    'bg-slate-800 text-white'
+  };
+  return map[color] || 'bg-gray-100 text-gray-800';
+}
+
+let currentYear, currentMonth;
+
+function renderCalendar(year, month) {
+  currentYear = year;
+  currentMonth = month;
+
+  document.getElementById('calMonth').textContent = `${year}年${month + 1}月`;
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const DAY_NAMES = ['日','月','火','水','木','金','土'];
+
+  // 第N曜日の日付を事前計算
+  const nthDays = {};
+  NTH_WEEKDAY.forEach(({dayOfWeek, nth, label, color}) => {
+    const d = getNthWeekday(year, month, dayOfWeek, nth);
+    if (d) {
+      if (!nthDays[d]) nthDays[d] = [];
+      nthDays[d].push({label, color});
+    }
+  });
+
+  // .mdイベントを日付でインデックス化
+  const eventsByDate = {};
+  EVENTS.forEach(ev => {
+    const [ey, em, ed] = ev.date.split('-').map(Number);
+    if (ey === year && em === month + 1) {
+      if (!eventsByDate[ed]) eventsByDate[ed] = [];
+      eventsByDate[ed].push(ev);
+    }
+  });
+
+  let html = '';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dow = new Date(year, month, d).getDay();
+    const dayName = DAY_NAMES[dow];
+    const dayColor = dow === 0 ? 'text-red-500' : (dow === 6 ? 'text-blue-500' : 'text-gray-500');
+
+    const activities = [];
+    (WEEKLY[dow] || []).forEach(a => activities.push({...a, link: null}));
+    (nthDays[d] || []).forEach(a => activities.push({...a, link: null}));
+    (eventsByDate[d] || []).forEach(ev => {
+      const label = ev.time ? `${ev.title} ${ev.time}` : ev.title;
+      activities.push({label, color:'red', link: ev.url});
+    });
+
+    let cellHtml = '';
+    if (activities.length === 0) {
+      cellHtml = '<span class="text-sm text-gray-300">―</span>';
+    } else {
+      cellHtml = activities.map(a => {
+        const cls = `${getColorClass(a.color)} text-xs px-2 py-0.5 rounded-full`;
+        return a.link
+          ? `<a href="${a.link}" class="${cls} font-bold hover:opacity-80">${a.label}</a>`
+          : `<span class="${cls}">${a.label}</span>`;
+      }).join('');
+    }
+
+    const hasEvent = (eventsByDate[d] || []).length > 0;
+    const rowBg = hasEvent ? 'bg-red-50 -mx-4 px-4 rounded' : '';
+
+    html += `
+    <div class="flex gap-3 py-3 border-b border-gray-100 ${rowBg}">
+      <div class="w-16 shrink-0">
+        <span class="text-base font-bold">${month + 1}/${d}</span>
+        <span class="text-sm ${dayColor} ml-1">${dayName}</span>
+      </div>
+      <div class="flex-1 flex flex-wrap gap-1 items-center">${cellHtml}</div>
+    </div>`;
+  }
+
+  document.getElementById('calBody').innerHTML = html;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const now = new Date();
+  renderCalendar(now.getFullYear(), now.getMonth());
+
+  document.getElementById('prevBtn').addEventListener('click', function() {
+    let m = currentMonth - 1, y = currentYear;
+    if (m < 0) { m = 11; y--; }
+    renderCalendar(y, m);
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', function() {
+    let m = currentMonth + 1, y = currentYear;
+    if (m > 11) { m = 0; y++; }
+    renderCalendar(y, m);
+  });
+});
+</script>
+
 <main class="max-w-2xl mx-auto px-4 py-8">
 
   <div class="flex items-center justify-between mb-6">
     <h1 class="text-2xl font-bold text-kon border-l-4 border-midori pl-3">イベント</h1>
     <div class="flex items-center gap-2">
-      <button class="p-1 hover:bg-gray-100 rounded" aria-label="前の月">
+      <button id="prevBtn" class="p-1 hover:bg-gray-100 rounded" aria-label="前の月">
         <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
-      <span class="text-base font-bold text-kon">2026年3月</span>
-      <button class="p-1 hover:bg-gray-100 rounded" aria-label="次の月">
+      <span id="calMonth" class="text-base font-bold text-kon w-24 text-center"></span>
+      <button id="nextBtn" class="p-1 hover:bg-gray-100 rounded" aria-label="次の月">
         <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
       </button>
     </div>
   </div>
-
-  {% if collections.events and collections.events.length > 0 %}
-  <section class="mb-6 bg-red-50 rounded-lg p-4">
-    <h2 class="text-sm font-bold text-red-800 mb-3">特別行事・お知らせ</h2>
-    <div class="space-y-2">
-      {% for item in collections.events %}
-      <div class="flex gap-3 items-baseline">
-        <time class="text-sm text-gray-500 whitespace-nowrap">{{ item.date | dateJp }}</time>
-        <a href="{{ item.url }}" class="text-sm font-bold text-red-800 hover:underline">{{ item.data.title }}</a>
-      </div>
-      {% endfor %}
-    </div>
-  </section>
-  {% endif %}
 
   <div class="flex flex-wrap gap-2 mb-4 text-xs">
     <span class="bg-green-100 text-green-800 px-2 py-0.5 rounded-full">花の会</span>
@@ -44,39 +177,7 @@ permalink: /events/index.html
     <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded-full">行事</span>
   </div>
 
-  <div class="divide-y divide-gray-100">
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/1</span><span class="text-sm text-red-500 ml-1">日</span></div><div class="flex-1 text-sm text-gray-400">―</div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/2</span><span class="text-sm text-gray-500 ml-1">月</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">GG 9:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/3</span><span class="text-sm text-gray-500 ml-1">火</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">いきいき体操 13:30</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/4</span><span class="text-sm text-gray-500 ml-1">水</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/5</span><span class="text-sm text-gray-500 ml-1">木</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">GG 9:00</span><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/6</span><span class="text-sm text-gray-500 ml-1">金</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/7</span><span class="text-sm text-gray-500 ml-1">土</span></div><div class="flex-1 text-sm text-gray-400">―</div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/8</span><span class="text-sm text-red-500 ml-1">日</span></div><div class="flex-1 text-sm text-gray-400">―</div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/9</span><span class="text-sm text-gray-500 ml-1">月</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">GG 9:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/10</span><span class="text-sm text-gray-500 ml-1">火</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">いきいき体操 13:30</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/11</span><span class="text-sm text-gray-500 ml-1">水</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span><span class="bg-pink-100 text-pink-800 text-xs px-2 py-0.5 rounded-full">ひばり会</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/12</span><span class="text-sm text-gray-500 ml-1">木</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">GG 9:00</span><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/13</span><span class="text-sm text-gray-500 ml-1">金</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/14</span><span class="text-sm text-gray-500 ml-1">土</span></div><div class="flex-1 text-sm text-gray-400">―</div></div>
-    <div class="flex gap-3 py-3 bg-red-50 -mx-4 px-4 rounded"><div class="w-20 shrink-0"><span class="text-base font-bold">3/15</span><span class="text-sm text-red-500 ml-1">日</span></div><div class="flex-1 flex flex-wrap gap-1 items-start"><span class="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded-full font-bold">春の清掃活動 9:00〜</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/16</span><span class="text-sm text-gray-500 ml-1">月</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">GG 9:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/17</span><span class="text-sm text-gray-500 ml-1">火</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">いきいき体操 13:30</span><span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">花の会</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/18</span><span class="text-sm text-gray-500 ml-1">水</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/19</span><span class="text-sm text-gray-500 ml-1">木</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">GG 9:00</span><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/20</span><span class="text-sm text-red-500 ml-1">祝</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span></div></div>
-    <div class="flex gap-3 py-3 bg-kon/5 -mx-4 px-4 rounded"><div class="w-20 shrink-0"><span class="text-base font-bold">3/21</span><span class="text-sm text-gray-500 ml-1">土</span></div><div class="flex-1 flex flex-wrap gap-1 items-start"><span class="bg-kon text-white text-xs px-2 py-0.5 rounded-full font-bold">🏟 選抜高校野球 開幕</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/22</span><span class="text-sm text-red-500 ml-1">日</span></div><div class="flex-1 text-sm text-gray-400">―</div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/23</span><span class="text-sm text-gray-500 ml-1">月</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">GG 9:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/24</span><span class="text-sm text-gray-500 ml-1">火</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">いきいき体操 13:30</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/25</span><span class="text-sm text-gray-500 ml-1">水</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span><span class="bg-pink-100 text-pink-800 text-xs px-2 py-0.5 rounded-full">ひばり会</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/26</span><span class="text-sm text-gray-500 ml-1">木</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">GG 9:00</span><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/27</span><span class="text-sm text-gray-500 ml-1">金</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">ダーツ 13:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/28</span><span class="text-sm text-gray-500 ml-1">土</span></div><div class="flex-1 text-sm text-gray-400">―</div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/29</span><span class="text-sm text-red-500 ml-1">日</span></div><div class="flex-1 text-sm text-gray-400">―</div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/30</span><span class="text-sm text-gray-500 ml-1">月</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">GG 9:00</span></div></div>
-    <div class="flex gap-3 py-3"><div class="w-20 shrink-0"><span class="text-base font-bold">3/31</span><span class="text-sm text-gray-500 ml-1">火</span></div><div class="flex-1 flex flex-wrap gap-1"><span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">いきいき体操 13:30</span></div></div>
-  </div>
+  <div id="calBody" class="divide-y divide-gray-100"></div>
 
   <p class="text-xs text-gray-400 mt-4">※甲子園球場の日程は急な変更の場合があります。<a href="https://koshien.hanshin.co.jp/" target="_blank" class="underline">公式サイト</a>をご確認ください。</p>
 

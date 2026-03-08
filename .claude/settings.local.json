@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(test:*)",
+      "WebFetch(domain:koshien.hanshin.co.jp)",
+      "Bash(ls:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:sprightly-liger-e56984.netlify.app)",
+      "WebFetch(domain:guileless-entremet-18c7b9.netlify.app)"
+    ]
+  }
+}

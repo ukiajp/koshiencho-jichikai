@@ -31,6 +31,12 @@ module.exports = function(eleventyConfig) {
     return `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
   });
 
+  // 日付フォーマット（YYYY-MM-DD）カレンダーJS用
+  eleventyConfig.addFilter("isoDate", function(date) {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  });
+
   // 静的ファイルをそのままコピー
   eleventyConfig.addPassthroughCopy("assets");
   eleventyConfig.addPassthroughCopy("admin");
