@@ -81,11 +81,15 @@ function renderCalendar(year, month) {
     }
   });
 
-  // .mdイベントを日付でインデックス化（endDate対応）
+  // .mdイベントを日付でインデックス化（endDate対応・タイムゾーン安全）
   const eventsByDate = {};
+  function parseLocalDate(str) {
+    const [y, m, d] = str.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  }
   EVENTS.forEach(ev => {
-    const start = new Date(ev.date);
-    const end = new Date(ev.endDate || ev.date);
+    const start = parseLocalDate(ev.date);
+    const end = parseLocalDate(ev.endDate || ev.date);
     for (let d = 1; d <= daysInMonth; d++) {
       const cur = new Date(year, month, d);
       if (cur >= start && cur <= end) {
