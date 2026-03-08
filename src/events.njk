@@ -12,6 +12,7 @@ const EVENTS = [
     date: "{{ item.date | isoDate }}",
     title: "{{ item.data.title | replace('"', '\\"') }}",
     url: "{{ item.url }}",
+    endDate: "{{ item.data.endDate or '' }}",
     time: "{{ item.data.time or '' }}",
     location: "{{ item.data.location or '' }}"
   }{% if not loop.last %},{% endif %}
@@ -80,13 +81,19 @@ function renderCalendar(year, month) {
     }
   });
 
-  // .mdイベントを日付でインデックス化
+  // .mdイベントを日付でインデックス化（endDate対応）
   const eventsByDate = {};
   EVENTS.forEach(ev => {
-    const [ey, em, ed] = ev.date.split('-').map(Number);
-    if (ey === year && em === month + 1) {
-      if (!eventsByDate[ed]) eventsByDate[ed] = [];
-      eventsByDate[ed].push(ev);
+    const start = new Date(ev.date);
+    const end = new Date(ev.endDate || ev.date);
+    for (let d = 1; d <= daysInMonth; d++) {
+      const cur = new Date(year, month, d);
+      if (cur >= start && cur <= end) {
+        if (!eventsByDate[d]) eventsByDate[d] = [];
+        if (!eventsByDate[d].find(e => e.url === ev.url)) {
+          eventsByDate[d].push(ev);
+        }
+      }
     }
   });
 
