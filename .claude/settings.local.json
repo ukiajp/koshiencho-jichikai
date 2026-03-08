@@ -10,7 +10,8 @@
       "WebFetch(domain:guileless-entremet-18c7b9.netlify.app)",
       "WebSearch",
       "WebFetch(domain:wakutakasports.com)",
-      "WebFetch(domain:m.hanshintigers.jp)"
+      "WebFetch(domain:m.hanshintigers.jp)",
+      "WebFetch(domain:maps.app.goo.gl)"
     ]
   }
 }
