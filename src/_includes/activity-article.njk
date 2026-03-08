@@ -5,10 +5,10 @@ layout: base.njk
   <a href="/activities/" class="text-sm text-midori hover:underline">← 活動報告一覧に戻る</a>
   <article class="mt-4">
     <div class="flex items-center gap-2 mb-2">
-      {% if group == "hana" %}<span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full font-bold">花の会</span>
-      {% elif group == "tokiwa" %}<span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full font-bold">ときわ会</span>
-      {% elif group == "hibari" %}<span class="bg-pink-100 text-pink-800 text-xs px-2 py-0.5 rounded-full font-bold">ひばり会</span>
-      {% elif group == "bohan" %}<span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-bold">防犯部</span>
+      {% if group == "花の会" %}<span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full font-bold">花の会</span>
+      {% elif group == "ときわ会" %}<span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full font-bold">ときわ会</span>
+      {% elif group == "ひばり会" %}<span class="bg-pink-100 text-pink-800 text-xs px-2 py-0.5 rounded-full font-bold">ひばり会</span>
+      {% elif group == "防犯部" %}<span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-bold">防犯部</span>
       {% endif %}
       <time class="text-sm text-gray-500">{{ date | dateJp }}</time>
     </div>
