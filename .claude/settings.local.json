@@ -11,7 +11,8 @@
       "WebSearch",
       "WebFetch(domain:wakutakasports.com)",
       "WebFetch(domain:m.hanshintigers.jp)",
-      "WebFetch(domain:maps.app.goo.gl)"
+      "WebFetch(domain:maps.app.goo.gl)",
+      "Bash(__NEW_LINE_80f5cb8f90c98350__:*)"
     ]
   }
 }
