@@ -12,7 +12,7 @@ const EVENTS = [
     date: "{{ item.date | isoDate }}",
     title: "{{ item.data.title | replace('"', '\\"') }}",
     url: "{{ item.url }}",
-    endDate: "{{ item.data.endDate or '' }}",
+    endDate: "{% if item.data.endDate %}{{ item.data.endDate | isoDate }}{% endif %}",
     time: "{{ item.data.time or '' }}",
     location: "{{ item.data.location or '' }}"
   }{% if not loop.last %},{% endif %}
