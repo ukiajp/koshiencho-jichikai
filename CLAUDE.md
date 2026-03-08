@@ -3,62 +3,59 @@
 ## プロジェクト概要
 
 甲子園町自治会の公式ウェブサイト。
-Netlify + Decap CMS + HTML/CSS（Tailwind CSS）で構築。
+Eleventy + Tailwind CSS CDN で構築。GitHub push → Vercel（確認用）、本番はロリポップ予定。
 
 ## 技術スタック
 
-- ホスティング：Netlify（無料枠）
-- CMS：Decap CMS + Netlify Identity
-- バックアップ：GitHub（自動連携）
-- HTML / CSS：Tailwind CSS（CDN読み込み）
-- 会館予約：Coubic 埋め込み
-- お問い合わせ：Googleフォーム + GAS + LINE Messaging API
+- ホスティング：Vercel（確認用）／ロリポップ（本番予定）
+- デプロイ：GitHub push → 自動デプロイ
+- コンテンツ管理：GitHub web UI + Claude（AI補助）
+- SSG：Eleventy（@11ty/eleventy v3）
+- CSS：Tailwind CSS CDN
+- 会館予約：Googleフォーム（埋め込み済み）
+- お問い合わせ：Googleフォーム（設定予定）
 
 ## フォルダ構成
 
 ```
 koshiencho-jichikai/
-├── CLAUDE.md             ← このファイル
+├── CLAUDE.md
 ├── docs/
-│   └── 要件定義.md       ← 要件定義書（Obsidianからコピー）
-├── admin/
-│   └── config.yml        ← Decap CMS 設定
-├── content/
-│   ├── news/             ← お知らせ（Markdownファイル）
-│   ├── events/           ← イベント（Markdownファイル）
-│   └── activities/       ← 活動報告（Markdownファイル）
+│   └── 要件定義.md
+├── src/
+│   ├── _includes/        ← レイアウト・パーツ
+│   ├── content/
+│   │   ├── news/         ← お知らせ（.md）
+│   │   ├── events/       ← イベント（.md）
+│   │   └── activities/   ← 活動報告（.md）
+│   └── *.njk             ← 各ページ
 ├── assets/
 │   └── images/           ← 画像ファイル
-└── index.html            ← トップページ
+├── .eleventy.js
+└── vercel.json
 ```
 
 ## ページ構成
 
 | ページ | ファイル |
 |---|---|
-| トップ | index.html |
-| お知らせ | news.html |
-| イベント一覧 | events.html |
-| 活動報告 | activities.html |
-| 月見里会館 予約 | reserve.html |
-| 自治会について | about.html |
-| お問い合わせ | contact.html |
+| トップ | src/index.njk |
+| お知らせ | src/news/news.njk |
+| イベント | src/events.njk |
+| 活動報告 | src/activities/activities.njk |
+| 月見里会館 予約 | src/reserve.njk |
+| 自治会について | src/about.njk |
+| お問い合わせ | src/contact.njk |
 
-## デザイン方針
+## 確認なしに実行してよいこと
 
-- モバイルファースト
-- カラー：深緑（#1a5c38）・白（#ffffff）・紺（#1e3a5f）
-- フォントサイズ：16px以上
-- Tailwind CSS CDN使用（ビルド不要）
+- ファイルの読み取り・分析
+- コードの編集・作成
+- git add / commit / push
+- npm run dev / npm run build
 
 ## 実装ルール
 
 - コメントはロジックが自明でない場合のみ
 - 動くものを先に作り、後で整える
-- 既存ファイルを上書きする前に確認する
 - コミットメッセージは日本語でOK
-
-## 参照ドキュメント
-
-- 要件定義：`docs/要件定義.md`
-- Obsidian記録：`G:\マイドライブ\Obsidian\01_Clippings\20260307_甲子園町自治会サイト要件定義.md`
